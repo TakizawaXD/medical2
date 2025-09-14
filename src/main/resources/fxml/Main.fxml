@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.MainController">
+    <top>
+        <MenuBar>
+            <menus>
+                <Menu text="Archivo">
+                    <items>
+                        <MenuItem text="Salir" onAction="#handleExit"/>
+                    </items>
+                </Menu>
+                <Menu text="Módulos">
+                    <items>
+                        <MenuItem text="Pacientes" onAction="#handleShowPatients"/>
+                        <MenuItem text="Usuarios" onAction="#handleShowUsers"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+</BorderPane>
