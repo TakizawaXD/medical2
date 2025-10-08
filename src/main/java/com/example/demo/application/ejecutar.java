@@ -16,7 +16,7 @@ public class ejecutar extends Application {
         database.createInitialTables();
 
         // Load the login view
-        Parent root = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/demo/view/Login.fxml"));
         primaryStage.setTitle("Sistema de Gestión Hospitalaria");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

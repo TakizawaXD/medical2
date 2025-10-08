@@ -267,4 +267,28 @@ public class Database {
         }
         return encounters;
     }
+
+    public void updateUser(User user, boolean passwordChanged) {
+        String sql;
+        if (passwordChanged) {
+            sql = "UPDATE users SET password = ?, role_id = ? WHERE username = ?";
+        } else {
+            sql = "UPDATE users SET role_id = ? WHERE username = ?";
+        }
+
+        try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            if (passwordChanged) {
+                String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+                pstmt.setString(1, hashedPassword);
+                pstmt.setInt(2, user.getRole().getId());
+                pstmt.setString(3, user.getUsername());
+            } else {
+                pstmt.setInt(1, user.getRole().getId());
+                pstmt.setString(2, user.getUsername());
+            }
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error updating user: " + e.getMessage());
+        }
+    }
 }

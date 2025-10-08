@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.controller;
 
+import com.example.demo.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -73,12 +74,12 @@ public class MainController {
 
     @FXML
     private void showPatients() {
-        loadView("view/Patient.fxml");
+        loadView("/com/example/demo/view/Patient.fxml");
     }
 
     @FXML
     private void showUsers() {
-        loadView("view/UserManagement.fxml");
+        loadView("/com/example/demo/view/UserManagement.fxml");
     }
 
     private void showReports() {

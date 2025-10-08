@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.UserManagementController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.UserManagementController">
     <children>
         <TableView fx:id="userTable" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
             <columns>
@@ -18,7 +18,7 @@
         <HBox alignment="CENTER_RIGHT" layoutX="14.0" layoutY="346.0" spacing="10.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
             <children>
                 <Button fx:id="addButton" onAction="#handle_add_user" text="Añadir..." />
-                <Button fx:id="editButton" disable="true" text="Editar..." />
+                <Button fx:id="editButton" onAction="#handleEditUser" text="Editar..." />
                 <Button fx:id="deleteButton" onAction="#handleDeleteUser" text="Eliminar" />
             </children>
             <padding>

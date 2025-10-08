@@ -1,5 +1,8 @@
-package com.example.demo;
+package com.example.demo.controller;
 
+import com.example.demo.data.Database;
+import com.example.demo.model.Role;
+import com.example.demo.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -67,7 +70,7 @@ public class RegisterController {
     private void backToLogin() {
         try {
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("view/Login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/demo/view/Login.fxml"));
             stage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();

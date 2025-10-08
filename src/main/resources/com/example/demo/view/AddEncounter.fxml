@@ -28,12 +28,10 @@
                         <Label text="Diagnóstico:" GridPane.rowIndex="2" />
                         <TextArea fx:id="diagnosisArea" prefHeight="60.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label text="Notas del Médico:" GridPane.rowIndex="3" />
-                        <TextArea fx:id="doctorNotesArea" prefHeight="80.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label text="Plan de Tratamiento:" GridPane.rowIndex="4" />
-                        <TextArea fx:id="treatmentPlanArea" prefHeight="60.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextArea fx:id="notesArea" prefHeight="80.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Button onAction="#handleSaveEncounter" text="Guardar Visita" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
                     </children>
                 </GridPane>
-                <Button onAction="#addEncounter" text="Guardar Visita" />
             </children>
         </VBox>
     </children>

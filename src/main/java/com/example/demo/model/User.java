@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.model;
 
 public class User {
     private String username;
@@ -21,5 +21,13 @@ public class User {
 
     public Role getRole() {
         return role;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

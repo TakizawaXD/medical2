@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.controller;
 
+import com.example.demo.data.Database;
+import com.example.demo.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -47,7 +49,7 @@ public class LoginController {
     private void showRegister() {
         try {
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("view/Register.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/demo/view/Register.fxml"));
             stage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,7 +59,7 @@ public class LoginController {
     private void loadMainApplication(User user) {
         try {
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("view/Main.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/view/Main.fxml"));
             Parent root = loader.load();
 
             // Pass the user object to the MainController
