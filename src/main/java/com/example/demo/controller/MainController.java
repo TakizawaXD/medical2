@@ -4,9 +4,7 @@ import com.example.demo.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -16,84 +14,69 @@ public class MainController {
     private BorderPane borderPane;
 
     private User currentUser;
+    private boolean isDarkMode = false;
 
     public void initData(User user) {
         this.currentUser = user;
-        setupDashboard();
+        loadDashboardByRole();
     }
 
-    private void setupDashboard() {
-        VBox navigationBox = new VBox();
-        navigationBox.setSpacing(10);
-        navigationBox.setStyle("-fx-padding: 10;");
+    @FXML
+    public void toggleDarkMode() {
+        isDarkMode = !isDarkMode;
+        if (isDarkMode) {
+            borderPane.getStylesheets().add(getClass().getResource("/com/example/demo/style/dark-mode.css").toExternalForm());
+        } else {
+            borderPane.getStylesheets().remove(getClass().getResource("/com/example/demo/style/dark-mode.css").toExternalForm());
+        }
+    }
 
+    private void loadDashboardByRole() {
         if (currentUser == null || currentUser.getRole() == null) {
-            System.out.println("Error: Current user or role is not set.");
+            System.err.println("Error: Current user or role is not set.");
             return;
         }
 
         String roleName = currentUser.getRole().getName();
+        String fxmlPath;
 
         switch (roleName) {
             case "Administrador":
-                navigationBox.getChildren().add(createButton("Gestionar Pacientes", this::showPatients));
-                navigationBox.getChildren().add(createButton("Gestionar Usuarios", this::showUsers));
-                navigationBox.getChildren().add(createButton("Ver Reportes", this::showReports));
+                fxmlPath = "/com/example/demo/view/AdminDashboard.fxml";
                 break;
             case "Médico":
-                navigationBox.getChildren().add(createButton("Mi Agenda", this::showAgenda));
-                navigationBox.getChildren().add(createButton("Buscar Paciente", this::showPatients));
+                fxmlPath = "/com/example/demo/view/DoctorDashboard.fxml";
                 break;
             case "Recepcionista":
-                navigationBox.getChildren().add(createButton("Registrar Paciente", this::showPatients));
-                navigationBox.getChildren().add(createButton("Agendar Cita", this::showAppointments));
+                fxmlPath = "/com/example/demo/view/ReceptionistDashboard.fxml";
+                break;
+            case "Enfermero/a":
+                fxmlPath = "/com/example/demo/view/NurseDashboard.fxml";
                 break;
             default:
-                // No options for unknown roles
-                break;
+                System.err.println("No dashboard found for role: " + roleName);
+                return; // Salir si no hay un rol que coincida
         }
 
-        borderPane.setLeft(navigationBox);
-    }
-
-    private Button createButton(String text, Runnable action) {
-        Button button = new Button(text);
-        button.setMaxWidth(Double.MAX_VALUE);
-        button.setOnAction(event -> action.run());
-        return button;
-    }
-
-    private void loadView(String fxmlPath) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
-            borderPane.setCenter(root);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent dashboardView = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof AdminDashboardController) {
+                ((AdminDashboardController) controller).setMainController(this);
+            } else if (controller instanceof DoctorDashboardController) {
+                ((DoctorDashboardController) controller).setMainController(this);
+            } else if (controller instanceof ReceptionistDashboardController) {
+                ((ReceptionistDashboardController) controller).setMainController(this);
+            } else if (controller instanceof NurseDashboardController) {
+                ((NurseDashboardController) controller).setMainController(this);
+            }
+
+            borderPane.setCenter(dashboardView);
         } catch (IOException e) {
             e.printStackTrace();
+            System.err.println("Failed to load dashboard: " + fxmlPath);
         }
-    }
-
-    @FXML
-    private void showPatients() {
-        loadView("/com/example/demo/view/Patient.fxml");
-    }
-
-    @FXML
-    private void showUsers() {
-        loadView("/com/example/demo/view/UserManagement.fxml");
-    }
-
-    private void showReports() {
-        // Placeholder
-        System.out.println("Navigating to Reports...");
-    }
-
-    private void showAgenda() {
-        // Placeholder
-        System.out.println("Navigating to Doctor's Agenda...");
-    }
-
-    private void showAppointments() {
-        // Placeholder
-        System.out.println("Navigating to Appointment Scheduling...");
     }
 }

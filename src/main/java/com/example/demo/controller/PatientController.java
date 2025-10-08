@@ -14,40 +14,37 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.Period;
 
 public class PatientController {
 
-    // Patient Fields
     @FXML private TextField nameField;
     @FXML private TextField lastNameField;
-    @FXML private TextField dniField;
+    @FXML private TextField cedulaField;
+    @FXML private TextField emailField;
     @FXML private DatePicker dateField;
+    @FXML private TextField ageField;
     @FXML private TextField addressField;
     @FXML private TextField phoneField;
     @FXML private TextField genderField;
-
-    // Patient Table
+    @FXML private ComboBox<String> bloodTypeField;
+    @FXML private TextField allergiesField;
+    @FXML private TextArea medicalHistoryField;
+    @FXML private TextField emergencyContactNameField;
+    @FXML private TextField emergencyContactPhoneField;
+    @FXML private TextField insuranceProviderField;
+    @FXML private TextField policyNumberField;
     @FXML private TableView<Patient> patientTable;
     @FXML private TableColumn<Patient, String> nameColumn;
     @FXML private TableColumn<Patient, String> lastNameColumn;
-    @FXML private TableColumn<Patient, String> dniColumn;
-    @FXML private TableColumn<Patient, String> dateColumn;
-    @FXML private TableColumn<Patient, String> addressColumn;
+    @FXML private TableColumn<Patient, String> cedulaColumn;
     @FXML private TableColumn<Patient, String> phoneColumn;
-    @FXML private TableColumn<Patient, String> genderColumn;
-
-    // Encounter Table
+    @FXML private TableColumn<Patient, String> bloodTypeColumn;
+    @FXML private TableColumn<Patient, String> insuranceProviderColumn;
     @FXML private TableView<Encounter> encounterTable;
     @FXML private TableColumn<Encounter, LocalDate> encounterDateColumn;
     @FXML private TableColumn<Encounter, String> encounterReasonColumn;
-
-    // Encounter Details
     @FXML private TextArea diagnosisArea;
     @FXML private TextArea doctorNotesArea;
     @FXML private TextArea treatmentPlanArea;
@@ -58,42 +55,76 @@ public class PatientController {
 
     @FXML
     private void initialize() {
-        // Setup Patient Table
+        setupPatientTable();
+        setupEncounterTable();
+        setupFieldListeners();
+        populateBloodTypeComboBox();
+        loadPatients();
+        ageField.setEditable(false);
+    }
+
+    private void setupPatientTable() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        dniColumn.setCellValueFactory(new PropertyValueFactory<>("dni"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        cedulaColumn.setCellValueFactory(new PropertyValueFactory<>("cedula"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        bloodTypeColumn.setCellValueFactory(new PropertyValueFactory<>("bloodType"));
+        insuranceProviderColumn.setCellValueFactory(new PropertyValueFactory<>("insuranceProvider"));
         patientTable.setItems(patientList);
+    }
 
-        // Setup Encounter Table
+    private void setupEncounterTable() {
         encounterDateColumn.setCellValueFactory(new PropertyValueFactory<>("encounterDate"));
         encounterReasonColumn.setCellValueFactory(new PropertyValueFactory<>("reasonForVisit"));
         encounterTable.setItems(encounterList);
+    }
 
-        // Listeners
+    private void setupFieldListeners() {
         patientTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showPatientDetails(newValue));
 
         encounterTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showEncounterDetails(newValue));
 
-        loadPatients();
+        dateField.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                ageField.setText(String.valueOf(Period.between(newValue, LocalDate.now()).getYears()));
+            } else {
+                ageField.clear();
+            }
+        });
+    }
+
+    private void populateBloodTypeComboBox() {
+        ObservableList<String> bloodTypes = FXCollections.observableArrayList(
+                "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"
+        );
+        bloodTypeField.setItems(bloodTypes);
     }
 
     private void showPatientDetails(Patient patient) {
         if (patient != null) {
             nameField.setText(patient.getName());
             lastNameField.setText(patient.getLastName());
-            dniField.setText(patient.getDni());
-            dateField.setValue(LocalDate.parse(patient.getDate()));
+            cedulaField.setText(patient.getCedula());
+            emailField.setText(patient.getEmail());
+            if (patient.getDate() != null && !patient.getDate().isEmpty()) {
+                dateField.setValue(LocalDate.parse(patient.getDate()));
+            } else {
+                dateField.setValue(null);
+            }
+            ageField.setText(String.valueOf(patient.getAge()));
             addressField.setText(patient.getAddress());
             phoneField.setText(patient.getPhone());
             genderField.setText(patient.getGender());
+            bloodTypeField.setValue(patient.getBloodType());
+            allergiesField.setText(patient.getAllergies());
+            medicalHistoryField.setText(patient.getMedicalHistory());
+            emergencyContactNameField.setText(patient.getEmergencyContactName());
+            emergencyContactPhoneField.setText(patient.getEmergencyContactPhone());
+            insuranceProviderField.setText(patient.getInsuranceProvider());
+            policyNumberField.setText(patient.getPolicyNumber());
 
-            // Load encounters for the selected patient
             loadEncountersForPatient(patient);
         } else {
             clearFields();
@@ -111,30 +142,7 @@ public class PatientController {
     }
 
     private void loadPatients() {
-        patientList.clear();
-        String url = "jdbc:sqlite:src/main/resources/database/database.db";
-        String sql = "SELECT * FROM patients";
-
-        try (Connection conn = DriverManager.getConnection(url);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                Patient patient = new Patient(
-                        rs.getString("name"),
-                        rs.getString("lastName"),
-                        rs.getString("dni"),
-                        rs.getString("date"),
-                        rs.getString("address"),
-                        rs.getString("phone"),
-                        rs.getString("gender")
-                );
-                patient.setId(rs.getInt("id")); // IMPORTANT: Set the ID
-                patientList.add(patient);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        patientList.setAll(database.getAllPatients());
     }
 
     private void loadEncountersForPatient(Patient patient) {
@@ -147,26 +155,55 @@ public class PatientController {
 
     @FXML
     private void addPatient() {
+        if (dateField.getValue() == null) {
+            return;
+        }
+        int age = Period.between(dateField.getValue(), LocalDate.now()).getYears();
         Patient patient = new Patient(
-                nameField.getText(),
-                lastNameField.getText(),
-                dniField.getText(),
-                dateField.getValue().toString(),
-                addressField.getText(),
-                phoneField.getText(),
-                genderField.getText()
+                nameField.getText(), lastNameField.getText(), cedulaField.getText(), emailField.getText(), dateField.getValue().toString(),
+                age, addressField.getText(), phoneField.getText(), genderField.getText(), bloodTypeField.getValue(),
+                allergiesField.getText(), medicalHistoryField.getText(), emergencyContactNameField.getText(),
+                emergencyContactPhoneField.getText(), insuranceProviderField.getText(), policyNumberField.getText()
         );
         database.insert(patient);
-        loadPatients(); // Reload the patient list
+        loadPatients();
         clearFields();
+    }
+
+    @FXML
+    private void updatePatient() {
+        Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
+        if (selectedPatient != null) {
+            int age = Period.between(dateField.getValue(), LocalDate.now()).getYears();
+            selectedPatient.setName(nameField.getText());
+            selectedPatient.setLastName(lastNameField.getText());
+            selectedPatient.setCedula(cedulaField.getText());
+            selectedPatient.setEmail(emailField.getText());
+            selectedPatient.setDate(dateField.getValue().toString());
+            selectedPatient.setAge(age);
+            selectedPatient.setAddress(addressField.getText());
+            selectedPatient.setPhone(phoneField.getText());
+            selectedPatient.setGender(genderField.getText());
+            selectedPatient.setBloodType(bloodTypeField.getValue());
+            selectedPatient.setAllergies(allergiesField.getText());
+            selectedPatient.setMedicalHistory(medicalHistoryField.getText());
+            selectedPatient.setEmergencyContactName(emergencyContactNameField.getText());
+            selectedPatient.setEmergencyContactPhone(emergencyContactPhoneField.getText());
+            selectedPatient.setInsuranceProvider(insuranceProviderField.getText());
+            selectedPatient.setPolicyNumber(policyNumberField.getText());
+
+            database.updatePatient(selectedPatient);
+            loadPatients();
+            clearFields();
+        }
     }
 
     @FXML
     private void deletePatient() {
         Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
         if (selectedPatient != null) {
-            database.deletePatient(selectedPatient.getDni());
-            loadPatients(); // Reload the patient list
+            database.deletePatient(selectedPatient.getCedula());
+            loadPatients();
         }
     }
 
@@ -174,13 +211,12 @@ public class PatientController {
     private void openAddEncounterWindow() {
         Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
         if (selectedPatient == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Por favor, seleccione un paciente primero.", ButtonType.OK);
-            alert.showAndWait();
+            new Alert(Alert.AlertType.WARNING, "Por favor, seleccione un paciente primero.").showAndWait();
             return;
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/AddEncounter.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/view/AddEncounter.fxml"));
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Añadir Nueva Visita para " + selectedPatient.getName());
@@ -203,11 +239,20 @@ public class PatientController {
     private void clearFields() {
         nameField.clear();
         lastNameField.clear();
-        dniField.clear();
+        cedulaField.clear();
+        emailField.clear();
         dateField.setValue(null);
+        ageField.clear();
         addressField.clear();
         phoneField.clear();
         genderField.clear();
+        bloodTypeField.setValue(null);
+        allergiesField.clear();
+        medicalHistoryField.clear();
+        emergencyContactNameField.clear();
+        emergencyContactPhoneField.clear();
+        insuranceProviderField.clear();
+        policyNumberField.clear();
         encounterList.clear();
         clearEncounterDetails();
     }

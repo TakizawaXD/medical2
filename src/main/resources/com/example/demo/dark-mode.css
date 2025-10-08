@@ -1,0 +1,37 @@
+.root {
+    -fx-base: #333333;
+    -fx-background: #222222;
+    -fx-control-inner-background: #444444;
+    -fx-text-fill: #ffffff;
+}
+
+.button {
+    -fx-background-color: #555555;
+    -fx-text-fill: #ffffff;
+}
+
+.button:hover {
+    -fx-background-color: #666666;
+}
+
+.label {
+    -fx-text-fill: #ffffff;
+}
+
+.table-view {
+    -fx-background-color: #444444;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #555555;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: #333333;
+    -fx-border-width: 0 1px 1px 0;
+}
+
+.table-view .cell {
+    -fx-text-fill: #ffffff;
+}

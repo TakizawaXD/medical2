@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.AdminDashboardController">
+    <left>
+        <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #f0f0f0;">
+            <children>
+                <Label text="Navegación" style="-fx-font-weight: bold;"/>
+                <Button text="Gestión de Pacientes" onAction="#showPatientManagement" maxWidth="Infinity"/>
+                <Button text="Gestión de Usuarios" onAction="#showUserManagement" maxWidth="Infinity"/>
+                <Button text="Agenda" onAction="#showAppointments" maxWidth="Infinity"/>
+                <ToggleButton fx:id="darkModeToggle" text="Modo Oscuro" onAction="#toggleDarkMode" maxWidth="Infinity"/>
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+            <children>
+                <Label text="Bienvenido al Panel de Administración" style="-fx-font-size: 24px;"/>
+                <Label text="Seleccione una opción del menú de la izquierda para comenzar."/>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

@@ -11,7 +11,6 @@ public class Encounter {
     private String doctorNotes;
     private String treatmentPlan;
 
-    // Constructor for creating a new encounter
     public Encounter(int patientId, LocalDate encounterDate, String reasonForVisit, String diagnosis, String doctorNotes, String treatmentPlan) {
         this.patientId = patientId;
         this.encounterDate = encounterDate;
@@ -21,7 +20,6 @@ public class Encounter {
         this.treatmentPlan = treatmentPlan;
     }
 
-    // Constructor for loading an encounter from the database
     public Encounter(int id, int patientId, LocalDate encounterDate, String reasonForVisit, String diagnosis, String doctorNotes, String treatmentPlan) {
         this.id = id;
         this.patientId = patientId;
@@ -32,7 +30,6 @@ public class Encounter {
         this.treatmentPlan = treatmentPlan;
     }
 
-    // Getters and Setters
     public int getId() {
         return id;
     }

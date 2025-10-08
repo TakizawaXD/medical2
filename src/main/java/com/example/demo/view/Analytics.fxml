@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="com.example.demo.controller.AnalyticsController">
+    <children>
+        <HBox spacing="20.0">
+            <children>
+                <PieChart fx:id="genderPieChart" title="Distribución por Género" />
+                <PieChart fx:id="bloodTypePieChart" title="Distribución por Grupo Sanguíneo" />
+            </children>
+        </HBox>
+        <BarChart fx:id="ageBarChart" title="Distribución por Edad">
+            <xAxis>
+                <CategoryAxis label="Rango de Edad" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis label="Número de Pacientes" />
+            </yAxis>
+        </BarChart>
+    </children>
+</VBox>
