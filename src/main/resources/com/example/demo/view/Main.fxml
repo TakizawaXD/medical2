@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #121212;" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.MainController">
+<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #121212;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.MainController">
    <left>
       <VBox alignment="TOP_CENTER" prefWidth="200.0" spacing="20.0" style="-fx-background-color: #282828; -fx-padding: 20;">
          <children>

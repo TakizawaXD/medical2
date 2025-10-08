@@ -1,24 +1,33 @@
-
 package com.example.demo.model;
 
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
 public class Patient {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
-    private String document;
-    private String medicalHistory;
-    private List<String> allergies;
-    private List<String> previousDiagnoses;
-    private List<String> previousMedications;
+    private String lastname;
+    private int age;
 
-    // Getters and setters
+    public Patient() {
+    }
 
-    public String getId() {
+    public Patient(String name, String lastname, int age) {
+        this.name = name;
+        this.lastname = lastname;
+        this.age = age;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -30,43 +39,19 @@ public class Patient {
         this.name = name;
     }
 
-    public String getDocument() {
-        return document;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setDocument(String document) {
-        this.document = document;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
-    public String getMedicalHistory() {
-        return medicalHistory;
+    public int getAge() {
+        return age;
     }
 
-    public void setMedicalHistory(String medicalHistory) {
-        this.medicalHistory = medicalHistory;
-    }
-
-    public List<String> getAllergies() {
-        return allergies;
-    }
-
-    public void setAllergies(List<String> allergies) {
-        this.allergies = allergies;
-    }
-
-    public List<String> getPreviousDiagnoses() {
-        return previousDiagnoses;
-    }
-
-    public void setPreviousDiagnoses(List<String> previousDiagnoses) {
-        this.previousDiagnoses = previousDiagnoses;
-    }
-
-    public List<String> getPreviousMedications() {
-        return previousMedications;
-    }
-
-    public void setPreviousMedications(List<String> previousMedications) {
-        this.previousMedications = previousMedications;
+    public void setAge(int age) {
+        this.age = age;
     }
 }

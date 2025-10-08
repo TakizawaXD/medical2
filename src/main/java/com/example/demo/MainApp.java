@@ -1,5 +1,4 @@
-
-package com.example.demo.view;
+package com.example.demo;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,9 +10,11 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Main.fxml"));
-        primaryStage.setTitle("Gestión Clínica");
-        primaryStage.setScene(new Scene(root, 800, 600));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
+        primaryStage.setTitle("Medical Application");
+        primaryStage.setScene(new Scene(root, 300, 500));
+                primaryStage.setResizable(false);
+
         primaryStage.show();
     }
 

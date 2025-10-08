@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #121212;" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.PatientController">
+    <children>
+        <VBox layoutX="14.0" layoutY="14.0" spacing="10.0">
+            <children>
+                <HBox spacing="10.0">
+                    <children>
+                        <JFXTextField fx:id="nameField" promptText="Name" />
+                        <JFXTextField fx:id="lastnameField" promptText="Lastname" />
+                        <JFXTextField fx:id="ageField" promptText="Age" />
+                    </children>
+                </HBox>
+                <HBox spacing="10.0">
+                    <children>
+                        <JFXButton fx:id="addButton" onAction="#addPatient" text="Add" />
+                        <JFXButton fx:id="deleteButton" onAction="#deletePatient" text="Delete" />
+                    </children>
+                </HBox>
+                <TableView fx:id="patientTable" prefHeight="350.0" prefWidth="670.0">
+                    <columns>
+                        <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
+                        <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Name" />
+                        <TableColumn fx:id="lastnameColumn" prefWidth="200.0" text="Lastname" />
+                        <TableColumn fx:id="ageColumn" prefWidth="100.0" text="Age" />
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

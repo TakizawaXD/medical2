@@ -1,0 +1,91 @@
+
+.root {
+    -fx-background-color: #121212;
+    -fx-font-family: 'Roboto';
+}
+
+.label {
+    -fx-text-fill: #FFFFFF;
+}
+
+.jfx-text-field, .jfx-password-field {
+    -fx-prompt-text-fill: #B3B3B3;
+    -fx-text-fill: #FFFFFF;
+    -jfx-focus-color: #1DB954;
+    -jfx-unfocus-color: #B3B3B3;
+    -fx-background-color: #282828;
+}
+
+.jfx-button {
+    -fx-font-weight: bold;
+}
+
+.login-button {
+    -fx-background-color: #1DB954;
+    -fx-text-fill: white;
+}
+
+.register-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #1DB954;
+    -fx-border-width: 1px;
+    -fx-text-fill: #1DB954;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #B3B3B3;
+    -fx-font-size: 16;
+    -fx-alignment: center-left;
+    -fx-padding: 10 20;
+}
+
+.menu-button:hover {
+    -fx-background-color: #333333;
+}
+
+.menu-button:pressed, .menu-button:focused {
+    -fx-background-color: #1DB954;
+    -fx-text-fill: white;
+}
+
+.table-view {
+    -fx-background-color: #121212;
+    -fx-control-inner-background: #121212;
+    -fx-alternative-row-fill-visible: false;
+    -fx-fixed-cell-size: 40;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #282828;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #282828 transparent;
+    -fx-border-width: 1;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #B3B3B3;
+    -fx-font-weight: bold;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #B3B3B3;
+    -fx-border-color: transparent transparent #282828 transparent;
+    -fx-border-width: 1;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: #282828;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #1DB954;
+    -fx-text-fill: white;
+}
+
+.table-view .table-row-cell:selected .table-cell {
+    -fx-text-fill: white;
+}

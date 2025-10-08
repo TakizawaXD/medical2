@@ -1,32 +1,37 @@
-
 package com.example.demo.controller;
 
-import javafx.event.ActionEvent;
+import com.example.demo.DemoApplication;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
+@Component
 public class MainController {
 
     @FXML
-    private void handleExit(ActionEvent event) {
-        System.exit(0);
+    private BorderPane borderPane;
+
+    @FXML
+    void showPatients() throws IOException {
+        loadView("/fxml/Patient.fxml");
     }
 
     @FXML
-    private void handleShowPatients(ActionEvent event) {
-        showAlert("Pacientes", "Aquí se mostrará la gestión de pacientes.");
+    void showUsers() {
+        // TODO: Load users view
     }
 
-    @FXML
-    private void handleShowUsers(ActionEvent event) {
-        showAlert("Usuarios", "Aquí se mostrará la gestión de usuarios.");
+    private void loadView(String fxmlPath) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        ConfigurableApplicationContext context = DemoApplication.getContext();
+        loader.setControllerFactory(context::getBean);
+        Parent view = loader.load();
+        borderPane.setCenter(view);
     }
 
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
 }

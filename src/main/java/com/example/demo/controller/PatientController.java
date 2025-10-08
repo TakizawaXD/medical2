@@ -1,42 +1,91 @@
-
 package com.example.demo.controller;
 
 import com.example.demo.model.Patient;
-import com.example.demo.services.PatientService;
+import com.example.demo.repository.PatientRepository;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/patients")
+@Component
 public class PatientController {
 
     @Autowired
-    private PatientService patientService;
+    private PatientRepository patientRepository;
 
-    @PostMapping
-    public Patient createPatient(@RequestBody Patient patient) {
-        return patientService.createPatient(patient);
+    @FXML
+    private TableView<Patient> patientTable;
+
+    @FXML
+    private TableColumn<Patient, Long> idColumn;
+
+    @FXML
+    private TableColumn<Patient, String> nameColumn;
+
+    @FXML
+    private TableColumn<Patient, String> lastnameColumn;
+
+    @FXML
+    private TableColumn<Patient, Integer> ageColumn;
+
+    @FXML
+    private JFXTextField nameField;
+
+    @FXML
+    private JFXTextField lastnameField;
+
+    @FXML
+    private JFXTextField ageField;
+
+    @FXML
+    private JFXButton addButton;
+
+    @FXML
+    private JFXButton deleteButton;
+
+    private ObservableList<Patient> patientList = FXCollections.observableArrayList();
+
+    @FXML
+    public void initialize() {
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
+        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
+        loadPatients();
     }
 
-    @GetMapping("/{id}")
-    public Patient getPatientById(@PathVariable String id) {
-        return patientService.getPatientById(id);
+    private void loadPatients() {
+        patientList.clear();
+        patientList.addAll(patientRepository.findAll());
+        patientTable.setItems(patientList);
     }
 
-    @PutMapping("/{id}")
-    public Patient updatePatient(@PathVariable String id, @RequestBody Patient patient) {
-        return patientService.updatePatient(id, patient);
+    @FXML
+    private void addPatient() {
+        Patient patient = new Patient(nameField.getText(), lastnameField.getText(), Integer.parseInt(ageField.getText()));
+        patientRepository.save(patient);
+        loadPatients();
+        clearFields();
     }
 
-    @DeleteMapping("/{id}")
-    public void deletePatient(@PathVariable String id) {
-        patientService.deletePatient(id);
+    @FXML
+    private void deletePatient() {
+        Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
+        if (selectedPatient != null) {
+            patientRepository.delete(selectedPatient);
+            loadPatients();
+        }
     }
 
-    @GetMapping
-    public List<Patient> getAllPatients() {
-        return patientService.getAllPatients();
+    private void clearFields() {
+        nameField.clear();
+        lastnameField.clear();
+        ageField.clear();
     }
 }
