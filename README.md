@@ -1,114 +1,58 @@
 # Sistema de Gestión Médica
 
-Este proyecto es un cliente de escritorio desarrollado en JavaFX que sirve como interfaz para un sistema de gestión médica más grande. La aplicación se conecta a un servidor backend para manejar la autenticación de usuarios, la gestión de pacientes y otras funcionalidades críticas.
+Este proyecto es una aplicación de escritorio autónoma desarrollada en JavaFX. Utiliza una base de datos local SQLite para gestionar usuarios y pacientes de un sistema médico.
 
 ## Características Principales
 
--   **Autenticación Segura:** Sistema de inicio de sesión y registro de usuarios para proteger el acceso a los datos.
--   **Control de Acceso Basado en Roles:** Diferentes usuarios tienen distintos niveles de acceso y permisos dentro de la aplicación.
--   **Gestión de Pacientes:** Funcionalidades para crear, ver, y modificar la información de los pacientes.
--   **Interfaz de Usuario Moderna:** Construida con JavaFX y la librería JFoenix para una experiencia de usuario fluida.
+-   **Autenticación de Usuarios:** Sistema de inicio de sesión y registro.
+-   **Control de Acceso Basado en Roles:** Diferentes usuarios (como administradores o médicos) tienen distintos permisos.
+-   **Gestión de Usuarios:** Funcionalidades para crear, ver, editar y eliminar usuarios.
+-   **Interfaz de Usuario Nativa:** Construida con JavaFX estándar para una apariencia y comportamiento nativos.
 
 ## Requisitos Previos
 
 -   **Java Development Kit (JDK):** Versión 17 o superior.
--   **Servidor Backend:** Es **indispensable** tener una instancia del servidor backend corriendo localmente en `http://localhost:8080`. Este cliente no funcionará sin él.
+-   **Maven:** Para compilar el proyecto y gestionar las dependencias.
 
 ## Instalación y Ejecución
 
-Una vez que hayas clonado el repositorio, puedes compilar y ejecutar el proyecto usando el Maven Wrapper incluido.
+Puedes compilar y ejecutar el proyecto usando Maven.
 
 1.  **Compila el proyecto:**
     ```bash
-    # En Mac/Linux
-    ./mvnw clean install
-
-    # En Windows
-    .\mvnw.cmd clean install
+    mvn clean install
     ```
 
 2.  **Ejecuta la aplicación:**
     ```bash
-    # En Mac/Linux
-    ./mvnw javafx:run
-
-    # En Windows
-    .\mvnw.cmd javafx:run
+    mvn javafx:run
     ```
+    También puedes importar el proyecto en tu IDE favorito (como IntelliJ IDEA o Eclipse) y ejecutar la clase `com.example.demo.ejecutar`.
 
-## Diagrama de Base de Datos (Modelo Lógico)
+## Arquitectura
 
-El siguiente diagrama ilustra la relación entre las entidades principales de la base de datos que da soporte a la aplicación.
-
-```mermaid
-erDiagram
-    USUARIOS {
-        int id PK
-        string username
-        string password_hash
-    }
-
-    ROLES {
-        int id PK
-        string nombre_rol "ADMIN, MEDICO, ENFERMERO, etc."
-    }
-
-    PACIENTES {
-        int id PK
-        string nombre
-        string apellido
-        date fecha_nacimiento
-        string direccion
-        string telefono
-    }
-
-    USUARIOS ||--|{ USUARIO_ROLES : tiene
-    ROLES ||--|{ USUARIO_ROLES : pertenece_a
-
-    USUARIOS { 
-        int medico_id FK "Un médico es un tipo de usuario"
-    }
-
-    PACIENTES }o--|| MEDICOS : "es atendido por"
-
-```
-
-## Arquitectura y Funcionamiento
-
-La aplicación sigue una arquitectura cliente-servidor de tres capas que separa la presentación, la lógica de negocio y el acceso a datos.
+La aplicación sigue una arquitectura simple de tres capas, ideal para una aplicación de escritorio:
 
 ```mermaid
 graph TD
-    subgraph "Cliente (JavaFX App)"
+    subgraph "Aplicación de Escritorio (JavaFX)"
         A[Vistas (FXML)]
-        B[Controladores]
-        C[Servicios de Cliente]
+        B[Controladores de Vista]
+        C[Lógica de Base de Datos (Database.java)]
     end
 
-    subgraph "Servidor Backend (Spring Boot)"
-        D[API Endpoints (REST Controllers)]
-        E[Lógica de Negocio (Services)]
-        F[Acceso a Datos (Repositories)]
-    end
-
-    subgraph "Base de Datos"
-        G[(Database)]
+    subgraph "Base de Datos Local"
+        D[(SQLite)]
     end
 
     A -- "Interacción del Usuario" --> B
     B -- "Llama a" --> C
-    C -- "Petición HTTP (JSON)" --> D
-    D -- "Invoca a" --> E
-    E -- "Usa" --> F
-    F -- "Consulta/Actualiza" --> G
+    C -- "Consulta/Actualiza" --> D
 ```
 
 ## Tecnologías Utilizadas
 
 -   **Lenguaje:** Java 17
 -   **Framework de UI:** JavaFX
--   **Librerías de UI:** JFoenix
+-   **Base de Datos:** SQLite (a través de `sqlite-jdbc`)
 -   **Gestión de Dependencias:** Maven
--   **Cliente HTTP:** OkHttp
--   **Manejo de JSON:** Gson
--   **Framework de Aplicación:** Spring Boot

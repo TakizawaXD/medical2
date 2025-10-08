@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<DialogPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <headerText>
+        Editar Usuario
+    </headerText>
+    <content>
+        <GridPane hgap="10" vgap="10">
+            <padding>
+                <Insets top="20" right="150" bottom="10" left="10"/>
+            </padding>
+            <Label text="Username:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <Text fx:id="usernameText" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+            <Label text="New Password:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <PasswordField fx:id="passwordField" promptText="Dejar en blanco para no cambiar" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+            <Label text="Role:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <ComboBox fx:id="roleComboBox" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+            <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
+        </GridPane>
+    </content>
+</DialogPane>

@@ -1,38 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #121212;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.PatientController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.PatientController">
     <children>
-        <VBox layoutX="14.0" layoutY="14.0" spacing="10.0">
+        <!-- Patient Management Section -->
+        <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="14.0" prefHeight="672.0" prefWidth="300.0" spacing="10.0">
             <children>
-                <HBox spacing="10.0">
+                <Label text="Gestión de Pacientes" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+                <GridPane hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                     <children>
-                        <JFXTextField fx:id="nameField" promptText="Name" />
-                        <JFXTextField fx:id="lastnameField" promptText="Lastname" />
-                        <JFXTextField fx:id="ageField" promptText="Age" />
+                        <Label text="Nombre:" GridPane.rowIndex="0" />
+                        <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label text="Apellidos:" GridPane.rowIndex="1" />
+                        <TextField fx:id="lastNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="DNI:" GridPane.rowIndex="2" />
+                        <TextField fx:id="dniField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Fecha de Nacimiento:" GridPane.rowIndex="3" />
+                        <DatePicker fx:id="dateField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Dirección:" GridPane.rowIndex="4" />
+                        <TextField fx:id="addressField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label text="Teléfono:" GridPane.rowIndex="5" />
+                        <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label text="Género:" GridPane.rowIndex="6" />
+                        <TextField fx:id="genderField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                    </children>
+                </GridPane>
+                <HBox alignment="CENTER" spacing="10.0">
+                    <children>
+                        <Button onAction="#addPatient" text="Añadir Paciente" />
+                        <Button onAction="#deletePatient" text="Eliminar Paciente" />
                     </children>
                 </HBox>
+            </children>
+        </VBox>
+
+        <!-- Patient List -->
+        <TableView fx:id="patientTable" layoutX="328.0" layoutY="14.0" prefHeight="300.0" prefWidth="858.0">
+            <columns>
+                <TableColumn fx:id="nameColumn" prefWidth="100.0" text="Nombre" />
+                <TableColumn fx:id="lastNameColumn" prefWidth="120.0" text="Apellidos" />
+                <TableColumn fx:id="dniColumn" prefWidth="90.0" text="DNI" />
+                <TableColumn fx:id="dateColumn" prefWidth="120.0" text="Fecha de Nac." />
+                <TableColumn fx:id="addressColumn" prefWidth="150.0" text="Dirección" />
+                <TableColumn fx:id="phoneColumn" prefWidth="100.0" text="Teléfono" />
+                <TableColumn fx:id="genderColumn" prefWidth="75.0" text="Género" />
+            </columns>
+        </TableView>
+
+        <!-- Encounter History Section -->
+        <VBox layoutX="328.0" layoutY="325.0" prefHeight="360.0" prefWidth="858.0" spacing="10.0">
+            <children>
+                <Label text="Historial de Visitas" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
                 <HBox spacing="10.0">
                     <children>
-                        <JFXButton fx:id="addButton" onAction="#addPatient" text="Add" />
-                        <JFXButton fx:id="deleteButton" onAction="#deletePatient" text="Delete" />
+                        <TableView fx:id="encounterTable" prefHeight="320.0" prefWidth="300.0">
+                            <columns>
+                                <TableColumn fx:id="encounterDateColumn" prefWidth="150.0" text="Fecha de Visita" />
+                                <TableColumn fx:id="encounterReasonColumn" prefWidth="150.0" text="Motivo" />
+                            </columns>
+                        </TableView>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label text="Detalles de la Visita:" style="-fx-font-weight: bold;" />
+                                <Label text="Diagnóstico:" />
+                                <TextArea fx:id="diagnosisArea" editable="false" prefHeight="60.0" wrapText="true" />
+                                <Label text="Notas del Médico:" />
+                                <TextArea fx:id="doctorNotesArea" editable="false" prefHeight="100.0" wrapText="true" />
+                                <Label text="Plan de Tratamiento:" />
+                                <TextArea fx:id="treatmentPlanArea" editable="false" prefHeight="80.0" wrapText="true" />
+                            </children>
+                        </VBox>
                     </children>
                 </HBox>
-                <TableView fx:id="patientTable" prefHeight="350.0" prefWidth="670.0">
-                    <columns>
-                        <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
-                        <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Name" />
-                        <TableColumn fx:id="lastnameColumn" prefWidth="200.0" text="Lastname" />
-                        <TableColumn fx:id="ageColumn" prefWidth="100.0" text="Age" />
-                    </columns>
-                </TableView>
+                 <Button onAction="#openAddEncounterWindow" text="Añadir Nueva Visita" />
             </children>
         </VBox>
     </children>
